@@ -49,7 +49,7 @@ extension BottomSheet {
     }
 }
 
-public class BottomSheet: UIViewController {
+public final class BottomSheet: UIViewController {
     public enum DraggableArea {
         case everything
         case navigationBar
