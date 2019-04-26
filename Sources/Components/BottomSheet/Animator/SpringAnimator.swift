@@ -4,34 +4,34 @@
 
 import UIKit
 
-extension SpringAnimator {
+public extension SpringAnimator {
     enum State {
         case inactive, active, stopped
     }
 }
 
-class SpringAnimator: NSObject {
+public class SpringAnimator: NSObject {
 
-    var fromPosition: CGPoint = .zero {
+    public var fromPosition: CGPoint = .zero {
         didSet {
             position = toPosition - fromPosition
         }
     }
 
-    var toPosition: CGPoint = .zero {
+    public var toPosition: CGPoint = .zero {
         didSet {
             position = toPosition - fromPosition
         }
     }
 
-    var initialVelocity: CGPoint = .zero {
+    public var initialVelocity: CGPoint = .zero {
         didSet {
             velocity = initialVelocity
         }
     }
 
-    var state: State = .stopped
-    var isRunning: Bool = false
+    public var state: State = .stopped
+    public var isRunning: Bool = false
 
     // MARK: - Spring physics
     private var dampingRatio: CGFloat = 0
@@ -49,12 +49,12 @@ class SpringAnimator: NSObject {
     private let scale = 1 / UIScreen.main.scale
 
     // MARK: - Setup
-    init(dampingRatio: CGFloat, frequencyResponse: CGFloat) {
+    public init(dampingRatio: CGFloat, frequencyResponse: CGFloat) {
         super.init()
         set(dampingRatio: dampingRatio, frequencyResponse: frequencyResponse)
     }
 
-    func set(dampingRatio: CGFloat, frequencyResponse: CGFloat) {
+    public func set(dampingRatio: CGFloat, frequencyResponse: CGFloat) {
         guard !isRunning else { return }
         self.dampingRatio = dampingRatio
         self.frequencyResponse = frequencyResponse
@@ -63,15 +63,15 @@ class SpringAnimator: NSObject {
     }
 
     // MARK: - ViewAnimating
-    func addAnimation(_ animation: @escaping (CGPoint) -> Void) {
+    public func addAnimation(_ animation: @escaping (CGPoint) -> Void) {
         animations.append(animation)
     }
 
-    func addCompletion(_ completion: @escaping (Bool) -> Void) {
+    public func addCompletion(_ completion: @escaping (Bool) -> Void) {
         self.completion = completion
     }
 
-    func startAnimation() {
+    public func startAnimation() {
         guard !isRunning else { return }
         switch state {
         case .stopped:
@@ -85,14 +85,14 @@ class SpringAnimator: NSObject {
         state = .active
     }
 
-    func pauseAnimation() {
+    public func pauseAnimation() {
         guard isRunning else { return }
         displayLink.isPaused = true
         isRunning = false
         state = .inactive
     }
 
-    func stopAnimation(_ withoutFinishing: Bool) {
+    public func stopAnimation(_ withoutFinishing: Bool) {
         guard isRunning else { return }
         displayLink.remove(from: .current, forMode: .common)
         isRunning = false
