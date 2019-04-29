@@ -10,20 +10,25 @@ class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningD
     weak var presentationControllerDelegate: BottomSheetPresentationControllerDelegate?
 
     private let height: BottomSheet.Height
+    private let appearance: BottomSheet.Appearance
     private let interactionController: BottomSheetInteractionController
     private let animationController: BottomSheetAnimationController
 
-    init(height: BottomSheet.Height) {
+    init(height: BottomSheet.Height, appearance: BottomSheet.Appearance) {
         self.height = height
+        self.appearance = appearance
         animationController = BottomSheetAnimationController()
         interactionController = BottomSheetInteractionController(animationController: animationController)
     }
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        presentationController = BottomSheetPresentationController(presentedViewController: presented,
-                                                                   presenting: presenting,
-                                                                   height: height,
-                                                                   interactionController: interactionController)
+        presentationController = BottomSheetPresentationController(
+            presentedViewController: presented,
+            presenting: presenting,
+            height: height,
+            appearance: appearance,
+            interactionController: interactionController
+        )
         presentationController?.presentationControllerDelegate = presentationControllerDelegate
         return presentationController
     }

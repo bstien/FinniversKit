@@ -47,6 +47,12 @@ extension BottomSheet {
         case drag
         case none
     }
+
+    public enum Appearance {
+        case fullWidth
+        case left
+        case right
+    }
 }
 
 public class BottomSheet: UIViewController {
@@ -102,10 +108,10 @@ public class BottomSheet: UIViewController {
     public init(rootViewController: UIViewController,
                 appWindow: UIWindow? = UIApplication.shared.delegate?.window ?? nil,
                 height: Height = .defaultFilterHeight,
-                draggableArea: DraggableArea = .everything
-                ) {
+                draggableArea: DraggableArea = .everything,
+                appearance: Appearance = .fullWidth) {
         self.rootViewController = rootViewController
-        self.transitionDelegate = BottomSheetTransitioningDelegate(height: height)
+        self.transitionDelegate = BottomSheetTransitioningDelegate(height: height, appearance: appearance)
         self.draggableArea = draggableArea
         if #available(iOS 11.0, *) {
             self.bottomSafeAreaInset = appWindow?.safeAreaInsets.bottom ?? 0

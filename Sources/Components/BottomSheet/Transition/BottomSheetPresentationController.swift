@@ -33,6 +33,7 @@ class BottomSheetPresentationController: UIPresentationController {
     // MARK: - Private properties
 
     private let height: BottomSheet.Height
+    private let appearance: BottomSheet.Appearance
     private let interactionController: BottomSheetInteractionController
     private var constraint: NSLayoutConstraint? // Constraint is used to set the y position of the bottom sheet
     private var gestureController: BottomSheetGestureController?
@@ -60,8 +61,13 @@ class BottomSheetPresentationController: UIPresentationController {
 
     // MARK: - Init
 
-    init(presentedViewController: UIViewController, presenting: UIViewController?, height: BottomSheet.Height, interactionController: BottomSheetInteractionController) {
+    init(presentedViewController: UIViewController,
+         presenting: UIViewController?,
+         height: BottomSheet.Height,
+         appearance: BottomSheet.Appearance,
+         interactionController: BottomSheetInteractionController) {
         self.height = height
+        self.appearance = appearance
         self.interactionController = interactionController
         super.init(presentedViewController: presentedViewController, presenting: presenting)
     }
@@ -110,6 +116,16 @@ class BottomSheetPresentationController: UIPresentationController {
         }
         gestureController?.delegate = self
     }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        stateController.frame.size = size
+
+        coordinator.animate(alongsideTransition: { _ in }, completion: { [weak self] _ in
+            guard let self = self else { return }
+            self.stateController.state = self.state
+            self.animate(to: self.stateController.targetPosition)
+        })
+    }
 }
 
 private extension BottomSheetPresentationController {
@@ -123,13 +139,29 @@ private extension BottomSheetPresentationController {
         containerView.addSubview(presentedView)
         presentedView.translatesAutoresizingMaskIntoConstraints = false
         let constraint = presentedView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: containerView.bounds.height)
+        let leadingConstraint: NSLayoutConstraint
+        let trailingConstraint: NSLayoutConstraint
+
+        switch appearance {
+        case .fullWidth:
+            leadingConstraint = presentedView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor)
+            trailingConstraint = presentedView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+        case .left:
+            leadingConstraint = presentedView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor)
+            trailingConstraint = presentedView.trailingAnchor.constraint(equalTo: containerView.centerXAnchor)
+        case .right:
+            leadingConstraint = presentedView.leadingAnchor.constraint(equalTo: containerView.centerXAnchor)
+            trailingConstraint = presentedView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+        }
+
         NSLayoutConstraint.activate([
             constraint,
-            presentedView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            presentedView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            leadingConstraint,
+            trailingConstraint,
             presentedView.heightAnchor.constraint(greaterThanOrEqualToConstant: height.compact),
             presentedView.bottomAnchor.constraint(greaterThanOrEqualTo: containerView.bottomAnchor),
         ])
+
         self.constraint = constraint
     }
 
