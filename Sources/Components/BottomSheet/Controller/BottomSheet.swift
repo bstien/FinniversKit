@@ -5,8 +5,7 @@
 import UIKit
 
 public protocol BottomSheetDelegate: AnyObject {
-    func bottomSheet(_ bottomSheet: BottomSheet, willTransitionTo state: BottomSheet.State)
-    func bottomSheet(_ bottomSheet: BottomSheet, didDismissBy action: BottomSheet.DismissAction)
+    func bottomSheet(_ bottomSheet: BottomSheet, willTransitionTo state: BottomSheet.State, by action: BottomSheet.TransitionAction?)
 }
 
 public protocol BottomSheetDragDelegate: AnyObject {
@@ -43,10 +42,9 @@ extension BottomSheet {
         case dismissed
     }
 
-    public enum DismissAction {
+    public enum TransitionAction {
         case tap
-        case drag
-        case none
+        case pan
     }
 }
 
@@ -163,12 +161,8 @@ public class BottomSheet: UIViewController {
 // MARK: - BottomSheetDismissalDelegate
 
 extension BottomSheet: BottomSheetPresentationControllerDelegate {
-    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, willTransitionTo state: BottomSheet.State) {
-        delegate?.bottomSheet(self, willTransitionTo: state)
-    }
-
-    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, didDismissPresentedViewController presentedViewController: UIViewController, by action: BottomSheet.DismissAction) {
-        delegate?.bottomSheet(self, didDismissBy: action)
+    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, willTransitionTo state: BottomSheet.State, by action: BottomSheet.TransitionAction?) {
+        delegate?.bottomSheet(self, willTransitionTo: state, by: action)
     }
 
     func bottomSheetPresentationControllerDidBeginDrag(_ presentationController: BottomSheetPresentationController) {

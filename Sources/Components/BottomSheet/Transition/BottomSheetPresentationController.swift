@@ -15,8 +15,7 @@ import UIKit
 **/
 
 protocol BottomSheetPresentationControllerDelegate: class {
-    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, willTransitionTo state: BottomSheet.State)
-    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, didDismissPresentedViewController presentedViewController: UIViewController, by action: BottomSheet.DismissAction)
+    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, willTransitionTo state: BottomSheet.State, by action: BottomSheet.TransitionAction?)
     func bottomSheetPresentationControllerDidBeginDrag(_ presentationController: BottomSheetPresentationController)
 }
 
@@ -41,7 +40,6 @@ class BottomSheetPresentationController: UIPresentationController {
     private lazy var stateController = BottomSheetStateController(height: height)
 
     private var hasReachExpandedPosition = false
-    private var dismissAction: BottomSheet.DismissAction = .none
 
     private var currentPosition: CGPoint {
         guard let constraint = constraint else { return .zero }
@@ -106,7 +104,6 @@ class BottomSheetPresentationController: UIPresentationController {
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         // Completed should always be true at this point of development
         guard !completed else {
-            presentationControllerDelegate?.bottomSheetPresentationController(self, didDismissPresentedViewController: presentedViewController, by: dismissAction)
             return
         }
         gestureController?.delegate = self
@@ -142,6 +139,7 @@ private extension BottomSheetPresentationController {
     func updateState(_ state: BottomSheet.State) {
         guard state != stateController.state else { return }
         stateController.state = state
+        presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: state, by: nil)
         animate(to: stateController.targetPosition)
     }
 
@@ -149,7 +147,7 @@ private extension BottomSheetPresentationController {
         guard stateController.state != .dismissed else { return }
         stateController.state = .dismissed
         gestureController?.velocity = .zero
-        dismissAction = .tap
+        presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: .dismissed, by: .tap)
         presentedViewController.dismiss(animated: true)
     }
 
@@ -182,7 +180,7 @@ extension BottomSheetPresentationController: BottomSheetGestureControllerDelegat
         if controller.position.y <= stateController.expandedPosition.y {
             guard !hasReachExpandedPosition else { return }
             hasReachExpandedPosition = true
-            presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: stateController.state)
+            presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: stateController.state, by: .pan)
             animate(to: stateController.expandedPosition, initialVelocity: -controller.velocity)
             return
         }
@@ -196,11 +194,7 @@ extension BottomSheetPresentationController: BottomSheetGestureControllerDelegat
         stateController.updateState(withTranslation: controller.translation)
         guard !hasReachExpandedPosition else { return }
 
-        if stateController.state == .dismissed {
-            dismissAction = .drag
-        }
-
-        presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: stateController.state)
+        presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: stateController.state, by: .pan)
         animate(to: stateController.targetPosition, initialVelocity: -controller.velocity)
     }
 }
