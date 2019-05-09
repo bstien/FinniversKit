@@ -15,6 +15,7 @@ import UIKit
 **/
 
 protocol BottomSheetPresentationControllerDelegate: class {
+    func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, willTransitionTo state: BottomSheet.State)
     func bottomSheetPresentationController(_ presentationController: BottomSheetPresentationController, didDismissPresentedViewController presentedViewController: UIViewController, by action: BottomSheet.DismissAction)
     func bottomSheetPresentationControllerDidBeginDrag(_ presentationController: BottomSheetPresentationController)
 }
@@ -181,6 +182,7 @@ extension BottomSheetPresentationController: BottomSheetGestureControllerDelegat
         if controller.position.y <= stateController.expandedPosition.y {
             guard !hasReachExpandedPosition else { return }
             hasReachExpandedPosition = true
+            presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: stateController.state)
             animate(to: stateController.expandedPosition, initialVelocity: -controller.velocity)
             return
         }
@@ -198,6 +200,7 @@ extension BottomSheetPresentationController: BottomSheetGestureControllerDelegat
             dismissAction = .drag
         }
 
+        presentationControllerDelegate?.bottomSheetPresentationController(self, willTransitionTo: stateController.state)
         animate(to: stateController.targetPosition, initialVelocity: -controller.velocity)
     }
 }
