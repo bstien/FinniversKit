@@ -194,6 +194,7 @@
 		6266C07022081EEA00FB8004 /* StatisticsItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6266C06F22081EEA00FB8004 /* StatisticsItemModel.swift */; };
 		6266C07222081EF600FB8004 /* StatisticsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6266C07122081EF600FB8004 /* StatisticsItemView.swift */; };
 		6266C0752208235000FB8004 /* AdManagementDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6266C0742208235000FB8004 /* AdManagementDemoView.swift */; };
+		822546E72295A93B003DDDB7 /* RadiobuttonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822546E62295A93B003DDDB7 /* RadiobuttonTableViewCell.swift */; };
 		895175902248CF79008003FB /* StepIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8951758F2248CF79008003FB /* StepIndicator.swift */; };
 		895175932248CFD4008003FB /* StepIndicatorDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895175922248CFD4008003FB /* StepIndicatorDemoView.swift */; };
 		895175952248D4D1008003FB /* StepDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895175942248D4D1008003FB /* StepDot.swift */; };
@@ -571,6 +572,7 @@
 		6266C06F22081EEA00FB8004 /* StatisticsItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsItemModel.swift; sourceTree = "<group>"; };
 		6266C07122081EF600FB8004 /* StatisticsItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsItemView.swift; sourceTree = "<group>"; };
 		6266C0742208235000FB8004 /* AdManagementDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManagementDemoView.swift; sourceTree = "<group>"; };
+		822546E62295A93B003DDDB7 /* RadiobuttonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadiobuttonTableViewCell.swift; sourceTree = "<group>"; };
 		8951758F2248CF79008003FB /* StepIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StepIndicator.swift; path = Sources/Components/Broadcast/StepIndicator.swift; sourceTree = SOURCE_ROOT; };
 		895175922248CFD4008003FB /* StepIndicatorDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIndicatorDemoView.swift; sourceTree = "<group>"; };
 		895175942248D4D1008003FB /* StepDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDot.swift; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 				08D70A14218328C6003E2222 /* CheckboxTableViewCell.swift */,
 				08D70A18218328EB003E2222 /* IconTitleTableViewCell.swift */,
 				08796D8921CB8AB90023A441 /* HeartTableViewCell.swift */,
+				822546E62295A93B003DDDB7 /* RadiobuttonTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3198,6 +3201,7 @@
 				895175952248D4D1008003FB /* StepDot.swift in Sources */,
 				F2772F4422803B310002D21F /* ReviewButtonView.swift in Sources */,
 				45B2E070207E181C00C68B92 /* InlineConsentView.swift in Sources */,
+				822546E72295A93B003DDDB7 /* RadiobuttonTableViewCell.swift in Sources */,
 				CF4A053921FB2ACB000BB7DA /* PianoEffectView.swift in Sources */,
 				44898D651FE5B9C200F6017B /* UITableViewExtensions.swift in Sources */,
 				DA9BF915215E66980072584C /* SettingsViewCellModel.swift in Sources */,
